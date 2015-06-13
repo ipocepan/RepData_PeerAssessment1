@@ -16,7 +16,7 @@ The data for this assignment is downloaded from a repository on GitHub. The data
 is stored in a comma-separated-value (CSV) file and there are a total of 17,568 
 observations in 3 columns.
 
-```{r echo = T}
+```{r}
 url <- "https://github.com/ipocepan/RepData_PeerAssessment1/blob/master/activity.zip"
 if(!file.exists("activity.csv")) {
         download.file(url, destfile = "activity.zip", method = "curl")
@@ -35,7 +35,7 @@ excluded from calculations.
 
 The number of steps was aggregated per date, all the missing values were ignored.
 
-```{r echo = T}
+```{r}
 total_steps <- aggregate(steps ~ date, data = activity_data, FUN = sum, na.rm = T)
 head(total_steps, 3)
 dim(total_steps)
@@ -45,7 +45,7 @@ dim(total_steps)
 The following image depicts distribution of the total number of steps taken 
 each day. There are 22 bins with binwidth equal to 1000. The blue dashed line
 marks the average number of steps taken per day during this experiment. 
-```{r echo = T}
+```{r fig.height = 6, fig.width = 9}
 library(ggplot2)
 ggplot(data = total_steps, aes(steps)) +
         geom_histogram(binwidth = 1000, fill = "red3", col = "darkred", alpha = 0.7) +
@@ -57,7 +57,7 @@ ggplot(data = total_steps, aes(steps)) +
 
 **3. Calculate and report the mean and median of the total number of steps taken per day**
 
-```{r echo = T}
+```{r}
 mean(total_steps$steps)
 median(total_steps$steps)
 ```
@@ -70,7 +70,7 @@ and the median is 10765, meaning that the subject of this experiment took over
 **1. Make a time series plot of the 5-minute interval (x-axis) and the average 
 number of steps taken, averaged across all days (y-axis)**
 
-```{r echo = T}
+```{r fig.height = 6, fig.width = 9}
 mean_steps_data <- aggregate(steps ~ interval, data = activity_data, FUN = mean, na.rm = T)
 max_int <- mean_steps_data[which.max(mean_steps_data$steps),]$interval
 
@@ -83,7 +83,7 @@ ggplot(data = mean_steps_data, aes(x = interval, y = steps)) +
 ```
 
 **2. Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?**
-```{r echo = T}
+```{r}
 max_int
 ```
 On average across all the days, the maximum number of steps (206) is made during the 
@@ -96,7 +96,7 @@ Note that there are a number of days/intervals where there are missing values
 calculations or summaries of the data.
 
 **1. Calculate and report the total number of missing values in the dataset **
-```{r echo = T}
+```{r}
 dim(activity_data[!complete.cases(activity_data),])
 ```
 There are 2304 missing values in the dataset, which means that approximately 13% 
@@ -109,7 +109,7 @@ data filled in.**
 The missing values were imputed using the median value for each of the 5-minute
 intervals. For instance, if the median for the 215 interval was 0, all the NA's
 for that interval were replaced by 0.
-```{r echo = T}
+```{r}
 library(plyr)
 imputed_data <- ddply(activity_data, .(interval), mutate, int_median = median(steps, na.rm = T))
 imputed_data$steps <- ifelse(is.na(imputed_data$steps), imputed_data$int_median, imputed_data$steps)
@@ -122,7 +122,7 @@ Calculate and report the mean and median total number of steps taken per day.
 Do these values differ from the estimates from the first part of the assignment? 
 What is the impact of imputing missing data on the estimates of the total daily 
 number of steps?
-```{r echo = T}
+```{r fig.height = 6, fig.width = 9}
 steps_data <- aggregate(steps ~ date, data = imputed_data, FUN = sum)
 
 ggplot(data = steps_data, aes(steps_data$steps)) +
@@ -144,7 +144,7 @@ had a spike in the interval between 1000 and 2000 steps. If we compare the boxpl
 of the total daily number of steps for the original and the imputed data, we
 can see that the distribution has "shifted" to the left (towards the lower 
 values) when the imputed values were introduced.
-```{r echo = T}
+```{r fig.height = 6, fig.width = 9}
 total_steps$imputed <- "original"
 steps_data$imputed <- "imputed"
 boxplot_data <- rbind(total_steps, steps_data)
@@ -167,7 +167,7 @@ with the filled-in missing values for this part.
 
 To determine whether a date is a weekday or not, we used format() funtion with
 the "%u" argument. Each date was assigned a value 1-7, i.e. Monday - 1, Sunday - 7. 
-```{r echo = T}
+```{r}
 imputed_data$wdayID <- format(imputed_data$date, "%u")
 imputed_data$wday[imputed_data$wdayID %in% c("6","7")] <- "weekend"
 imputed_data$wday[imputed_data$wdayID %in% c("1","2","3","4","5")] <- "weekday"
@@ -178,7 +178,7 @@ str(imputed_data)
 **2. Make a panel plot containing a time series plot **(i.e. type = "l") of the 
 5-minute interval (x-axis) and the average number of steps taken, averaged across 
 all weekday days or weekend days (y-axis). See the README file in the GitHub repository to see an example of what this plot should look like using simulated data.
-```{r echo = T}
+```{r fig.height = 6, fig.width = 9}
 mean_data_wday <- aggregate(steps ~ interval + wday, data = imputed_data, FUN = mean)
 
 ggplot(data = mean_data_wday, aes(x = interval, y = steps)) +
@@ -195,7 +195,7 @@ The weekend activity starts later in the day and there are no large spikes in
 the morning as in the weekdays. However, overall activity patterns are higher than
 during the weekdays and more evenly distributed. We could say that in general
 there is more activity during the weekend.
-```{r echo = T}
+```{r}
 summary(mean_data_wday$steps[mean_data_wday$wday == "weekday"])
 summary(mean_data_wday$steps[mean_data_wday$wday == "weekend"])
 ```
