@@ -4,6 +4,7 @@ output:
         html_document:
         keep_md: true
 ---
+## Reproducible Research: Peer Assessment 1
 
 The assignment is to write a report that answers the questions detailed below. 
 Ultimately, the entire assignment needs to be completed in a **single R markdown** 
@@ -23,7 +24,26 @@ if(!file.exists("activity.csv")) {
         download.file(url, destfile = "activity.zip", method = "curl")
         unzip("activity.zip")
 }
+```
+
+```
+## Warning in unzip("activity.zip"): error 1 in extracting from zip file
+```
+
+```r
 activity_data <- read.csv("activity.csv", sep = ",", header = T, colClasses = c("numeric", "Date", "numeric"))
+```
+
+```
+## Warning in file(file, "rt"): cannot open file 'activity.csv': No such file
+## or directory
+```
+
+```
+## Error in file(file, "rt"): cannot open the connection
+```
+
+```r
 head(activity_data, 3)
 ```
 
@@ -153,6 +173,7 @@ calculations or summaries of the data.
 
 **1. Calculate and report the total number of missing values in the dataset **
 
+
 ```r
 dim(activity_data[!complete.cases(activity_data),])
 ```
@@ -265,9 +286,11 @@ str(imputed_data)
 ##  $ interval: num  0 0 0 0 0 0 0 0 0 0 ...
 ##  $ wday    : Factor w/ 2 levels "weekday","weekend": 1 1 1 1 1 2 2 1 1 1 ...
 ```
+
 **2. Make a panel plot containing a time series plot **(i.e. type = "l") of the 
 5-minute interval (x-axis) and the average number of steps taken, averaged across 
 all weekday days or weekend days (y-axis). See the README file in the GitHub repository to see an example of what this plot should look like using simulated data.
+
 
 ```r
 mean_data_wday <- aggregate(steps ~ interval + wday, data = imputed_data, FUN = mean)

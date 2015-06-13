@@ -55,6 +55,8 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 </div>
 
 
+<div id="reproducible-research-peer-assessment-1" class="section level2">
+<h2>Reproducible Research: Peer Assessment 1</h2>
 <p>The assignment is to write a report that answers the questions detailed below. Ultimately, the entire assignment needs to be completed in a <strong>single R markdown</strong> document that can be processed by <strong>knitr</strong> and transformed into an <em>HTML</em> file. Further details on the assignment and on data used in this report can be found in <em>ReadMe</em> file.</p>
 <div id="loading-and-preprocessing-the-data" class="section level3">
 <h3>Loading and preprocessing the data</h3>
@@ -63,9 +65,13 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 if(!file.exists(&quot;activity.csv&quot;)) {
         download.file(url, destfile = &quot;activity.zip&quot;, method = &quot;curl&quot;)
         unzip(&quot;activity.zip&quot;)
-}
-activity_data &lt;- read.csv(&quot;activity.csv&quot;, sep = &quot;,&quot;, header = T, colClasses = c(&quot;numeric&quot;, &quot;Date&quot;, &quot;numeric&quot;))
-head(activity_data, 3)</code></pre>
+}</code></pre>
+<pre><code>## Warning in unzip(&quot;activity.zip&quot;): error 1 in extracting from zip file</code></pre>
+<pre class="r"><code>activity_data &lt;- read.csv(&quot;activity.csv&quot;, sep = &quot;,&quot;, header = T, colClasses = c(&quot;numeric&quot;, &quot;Date&quot;, &quot;numeric&quot;))</code></pre>
+<pre><code>## Warning in file(file, &quot;rt&quot;): cannot open file 'activity.csv': No such file
+## or directory</code></pre>
+<pre><code>## Error in file(file, &quot;rt&quot;): cannot open the connection</code></pre>
+<pre class="r"><code>head(activity_data, 3)</code></pre>
 <pre><code>##   steps       date interval
 ## 1    NA 2012-10-01        0
 ## 2    NA 2012-10-01        5
@@ -197,6 +203,7 @@ ggplot(data = mean_data_wday, aes(x = interval, y = steps)) +
 <pre class="r"><code>summary(mean_data_wday$steps[mean_data_wday$wday == &quot;weekend&quot;])</code></pre>
 <pre><code>##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
 ##   0.0000   0.9688  28.1600  38.1900  67.9400 155.0000</code></pre>
+</div>
 </div>
 
 

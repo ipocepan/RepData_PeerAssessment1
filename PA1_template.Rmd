@@ -4,6 +4,7 @@ output:
         html_document:
         keep_md: true
 ---
+## Reproducible Research: Peer Assessment 1
 
 The assignment is to write a report that answers the questions detailed below. 
 Ultimately, the entire assignment needs to be completed in a **single R markdown** 
@@ -96,6 +97,7 @@ Note that there are a number of days/intervals where there are missing values
 calculations or summaries of the data.
 
 **1. Calculate and report the total number of missing values in the dataset **
+
 ```{r}
 dim(activity_data[!complete.cases(activity_data),])
 ```
@@ -175,9 +177,11 @@ imputed_data$wday <- as.factor(imputed_data$wday)
 imputed_data$wdayID <- NULL
 str(imputed_data)
 ```
+
 **2. Make a panel plot containing a time series plot **(i.e. type = "l") of the 
 5-minute interval (x-axis) and the average number of steps taken, averaged across 
 all weekday days or weekend days (y-axis). See the README file in the GitHub repository to see an example of what this plot should look like using simulated data.
+
 ```{r fig.height = 6, fig.width = 9}
 mean_data_wday <- aggregate(steps ~ interval + wday, data = imputed_data, FUN = mean)
 
