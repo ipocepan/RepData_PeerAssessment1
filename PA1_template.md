@@ -4,7 +4,6 @@ output:
         html_document:
         keep_md: true
 ---
-## Reproducible Research: Peer Assessment 1
 
 The assignment is to write a report that answers the questions detailed below. 
 Ultimately, the entire assignment needs to be completed in a **single R markdown** 
@@ -24,26 +23,7 @@ if(!file.exists("activity.csv")) {
         download.file(url, destfile = "activity.zip", method = "curl")
         unzip("activity.zip")
 }
-```
-
-```
-## Warning in unzip("activity.zip"): error 1 in extracting from zip file
-```
-
-```r
 activity_data <- read.csv("activity.csv", sep = ",", header = T, colClasses = c("numeric", "Date", "numeric"))
-```
-
-```
-## Warning in file(file, "rt"): cannot open file 'activity.csv': No such file
-## or directory
-```
-
-```
-## Error in file(file, "rt"): cannot open the connection
-```
-
-```r
 head(activity_data, 3)
 ```
 
@@ -167,11 +147,12 @@ On average across all the days, the maximum number of steps (206) is made during
 on the previous time series plot with red dashed line.
 
 ### Imputing missing values
+
 Note that there are a number of days/intervals where there are missing values 
 (coded as NA). The presence of missing days may introduce bias into some 
 calculations or summaries of the data.
 
-**1. Calculate and report the total number of missing values in the dataset **
+**1. Calculate and report the total number of missing values in the dataset**
 
 
 ```r
@@ -287,7 +268,7 @@ str(imputed_data)
 ##  $ wday    : Factor w/ 2 levels "weekday","weekend": 1 1 1 1 1 2 2 1 1 1 ...
 ```
 
-**2. Make a panel plot containing a time series plot **(i.e. type = "l") of the 
+**2. Make a panel plot containing a time series plot** (i.e. type = "l") of the 
 5-minute interval (x-axis) and the average number of steps taken, averaged across 
 all weekday days or weekend days (y-axis). See the README file in the GitHub repository to see an example of what this plot should look like using simulated data.
 

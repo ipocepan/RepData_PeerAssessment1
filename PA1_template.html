@@ -55,8 +55,6 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 </div>
 
 
-<div id="reproducible-research-peer-assessment-1" class="section level2">
-<h2>Reproducible Research: Peer Assessment 1</h2>
 <p>The assignment is to write a report that answers the questions detailed below. Ultimately, the entire assignment needs to be completed in a <strong>single R markdown</strong> document that can be processed by <strong>knitr</strong> and transformed into an <em>HTML</em> file. Further details on the assignment and on data used in this report can be found in <em>ReadMe</em> file.</p>
 <div id="loading-and-preprocessing-the-data" class="section level3">
 <h3>Loading and preprocessing the data</h3>
@@ -65,13 +63,9 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 if(!file.exists(&quot;activity.csv&quot;)) {
         download.file(url, destfile = &quot;activity.zip&quot;, method = &quot;curl&quot;)
         unzip(&quot;activity.zip&quot;)
-}</code></pre>
-<pre><code>## Warning in unzip(&quot;activity.zip&quot;): error 1 in extracting from zip file</code></pre>
-<pre class="r"><code>activity_data &lt;- read.csv(&quot;activity.csv&quot;, sep = &quot;,&quot;, header = T, colClasses = c(&quot;numeric&quot;, &quot;Date&quot;, &quot;numeric&quot;))</code></pre>
-<pre><code>## Warning in file(file, &quot;rt&quot;): cannot open file 'activity.csv': No such file
-## or directory</code></pre>
-<pre><code>## Error in file(file, &quot;rt&quot;): cannot open the connection</code></pre>
-<pre class="r"><code>head(activity_data, 3)</code></pre>
+}
+activity_data &lt;- read.csv(&quot;activity.csv&quot;, sep = &quot;,&quot;, header = T, colClasses = c(&quot;numeric&quot;, &quot;Date&quot;, &quot;numeric&quot;))
+head(activity_data, 3)</code></pre>
 <pre><code>##   steps       date interval
 ## 1    NA 2012-10-01        0
 ## 2    NA 2012-10-01        5
@@ -133,7 +127,7 @@ ggplot(data = mean_steps_data, aes(x = interval, y = steps)) +
 <div id="imputing-missing-values" class="section level3">
 <h3>Imputing missing values</h3>
 <p>Note that there are a number of days/intervals where there are missing values (coded as NA). The presence of missing days may introduce bias into some calculations or summaries of the data.</p>
-<p><strong>1. Calculate and report the total number of missing values in the dataset </strong></p>
+<p><strong>1. Calculate and report the total number of missing values in the dataset</strong></p>
 <pre class="r"><code>dim(activity_data[!complete.cases(activity_data),])</code></pre>
 <pre><code>## [1] 2304    3</code></pre>
 <p>There are 2304 missing values in the dataset, which means that approximately 13% of the observations is incomplete.</p>
@@ -186,7 +180,7 @@ str(imputed_data)</code></pre>
 ##  $ date    : Date, format: &quot;2012-10-01&quot; &quot;2012-10-02&quot; ...
 ##  $ interval: num  0 0 0 0 0 0 0 0 0 0 ...
 ##  $ wday    : Factor w/ 2 levels &quot;weekday&quot;,&quot;weekend&quot;: 1 1 1 1 1 2 2 1 1 1 ...</code></pre>
-<p><strong>2. Make a panel plot containing a time series plot </strong>(i.e. type = “l”) of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis). See the README file in the GitHub repository to see an example of what this plot should look like using simulated data.</p>
+<p><strong>2. Make a panel plot containing a time series plot</strong> (i.e. type = “l”) of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis). See the README file in the GitHub repository to see an example of what this plot should look like using simulated data.</p>
 <pre class="r"><code>mean_data_wday &lt;- aggregate(steps ~ interval + wday, data = imputed_data, FUN = mean)
 
 ggplot(data = mean_data_wday, aes(x = interval, y = steps)) +
@@ -203,7 +197,6 @@ ggplot(data = mean_data_wday, aes(x = interval, y = steps)) +
 <pre class="r"><code>summary(mean_data_wday$steps[mean_data_wday$wday == &quot;weekend&quot;])</code></pre>
 <pre><code>##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
 ##   0.0000   0.9688  28.1600  38.1900  67.9400 155.0000</code></pre>
-</div>
 </div>
 
 
